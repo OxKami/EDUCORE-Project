@@ -1,0 +1,72 @@
+import { z } from 'zod';
+
+export const createTransactionSchema = z.object({
+  type: z.enum(['INCOME', 'EXPENSE']),
+  category: z.enum([
+    'TUITION_FEE',
+    'LUNCH_FEE',
+    'EXTRA_CLASS_FEE',
+    'ENGLISH_CLASS_FEE',
+    'UNIFORM',
+    'BOOKS',
+    'ACTIVITY_FEE',
+    'SALARY',
+    'UTILITIES',
+    'MAINTENANCE',
+    'SUPPLIES',
+    'OTHER',
+  ]),
+  amount: z.number().positive('Amount must be positive'),
+  currency: z.string().default('LAK'),
+  description: z.string().min(1, 'Description is required'),
+  paymentMethod: z.enum(['CASH', 'BANK_TRANSFER', 'BCEL_ONE', 'CREDIT_CARD', 'OTHER']).optional(),
+  status: z.enum(['PENDING', 'COMPLETED', 'CANCELLED', 'REFUNDED']).default('COMPLETED'),
+  referenceNumber: z.string().optional(),
+  receiptNumber: z.string().optional(),
+  studentId: z.string().uuid('Invalid student ID').optional(),
+  academicYearId: z.string().uuid('Invalid academic year ID').optional(),
+  transactionDate: z.string().datetime('Invalid date format').optional(),
+  dueDate: z.string().datetime('Invalid date format').optional(),
+  paidDate: z.string().datetime('Invalid date format').optional(),
+});
+
+export const updateTransactionSchema = z.object({
+  type: z.enum(['INCOME', 'EXPENSE']).optional(),
+  category: z.enum([
+    'TUITION_FEE',
+    'LUNCH_FEE',
+    'EXTRA_CLASS_FEE',
+    'ENGLISH_CLASS_FEE',
+    'UNIFORM',
+    'BOOKS',
+    'ACTIVITY_FEE',
+    'SALARY',
+    'UTILITIES',
+    'MAINTENANCE',
+    'SUPPLIES',
+    'OTHER',
+  ]).optional(),
+  amount: z.number().positive('Amount must be positive').optional(),
+  description: z.string().min(1, 'Description is required').optional(),
+  paymentMethod: z.enum(['CASH', 'BANK_TRANSFER', 'BCEL_ONE', 'CREDIT_CARD', 'OTHER']).optional(),
+  status: z.enum(['PENDING', 'COMPLETED', 'CANCELLED', 'REFUNDED']).optional(),
+  referenceNumber: z.string().optional(),
+  dueDate: z.string().datetime('Invalid date format').optional(),
+  paidDate: z.string().datetime('Invalid date format').optional(),
+});
+
+export const generateInvoicesSchema = z.object({
+  academicYearId: z.string().uuid('Invalid academic year ID'),
+  category: z.enum([
+    'TUITION_FEE',
+    'LUNCH_FEE',
+    'EXTRA_CLASS_FEE',
+    'ENGLISH_CLASS_FEE',
+  ]),
+  amount: z.number().positive('Amount must be positive'),
+  description: z.string().min(1, 'Description is required'),
+  dueDate: z.string().datetime('Invalid date format'),
+  studentIds: z.array(z.string().uuid()).optional(),
+  classId: z.string().uuid('Invalid class ID').optional(),
+  gradeId: z.string().uuid('Invalid grade ID').optional(),
+});
