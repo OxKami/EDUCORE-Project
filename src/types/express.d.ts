@@ -1,5 +1,5 @@
 
-i// Extend Express Request type to include user info
+// Extend Express Request type to include user info
 declare namespace Express {
   export interface Request {
     user?: {

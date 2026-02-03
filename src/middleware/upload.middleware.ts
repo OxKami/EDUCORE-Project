@@ -2,9 +2,14 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
+// Use absolute paths for reliable file storage (works when running from dist/ or different cwd)
+const uploadsRoot = path.join(process.cwd(), 'uploads');
+const documentsDir = path.join(uploadsRoot, 'documents');
+const receiptsDir = path.join(uploadsRoot, 'receipts');
+const tempDir = path.join(uploadsRoot, 'temp');
+
 // Ensure upload directories exist
-const uploadDirs = ['uploads/documents', 'uploads/receipts', 'uploads/temp'];
-uploadDirs.forEach(dir => {
+[documentsDir, receiptsDir, tempDir].forEach((dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -13,7 +18,7 @@ uploadDirs.forEach(dir => {
 // Configure storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/documents');
+    cb(null, documentsDir);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);

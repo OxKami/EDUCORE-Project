@@ -23,6 +23,7 @@ uploads/*
 !uploads/.gitkeep
 !uploads/documents/.gitkeep
 !uploads/receipts/.gitkeep
+!uploads/temp/.gitkeep
 
 # Prisma
 prisma/migrations/*_migration/

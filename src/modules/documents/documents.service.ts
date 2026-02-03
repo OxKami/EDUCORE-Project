@@ -204,7 +204,7 @@ export class DocumentsService {
         action: 'UPDATE',
         entityType: 'Document',
         entityId: documentId,
-        details: { updates: input },
+        details: JSON.parse(JSON.stringify({ updates: input })),
       },
     });
 

@@ -287,7 +287,7 @@ export class TeachersService {
           action: 'UPDATE',
           entityType: 'Teacher',
           entityId: teacherId,
-          details: { updates: input },
+          details: JSON.parse(JSON.stringify({ updates: input })),
         },
       });
 

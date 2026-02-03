@@ -250,7 +250,7 @@ export class UsersService {
         action: 'UPDATE',
         entityType: 'User',
         entityId: userId,
-        details: { updates: input },
+        details: JSON.parse(JSON.stringify({ updates: input })),
       },
     });
 

@@ -298,7 +298,7 @@ export class FinanceService {
         action: 'UPDATE',
         entityType: 'Transaction',
         entityId: transactionId,
-        details: { updates: input },
+        details: JSON.parse(JSON.stringify({ updates: input })),
       },
     });
 
@@ -520,11 +520,14 @@ export class FinanceService {
       }),
     ]);
 
+    const totalIncomeAmount = Number(totalIncome._sum.amount || 0);
+    const totalExpenseAmount = Number(totalExpense._sum.amount || 0);
+
     return {
       summary: {
-        totalIncome: totalIncome._sum.amount || 0,
-        totalExpense: totalExpense._sum.amount || 0,
-        netIncome: (totalIncome._sum.amount || 0) - (totalExpense._sum.amount || 0),
+        totalIncome: totalIncomeAmount,
+        totalExpense: totalExpenseAmount,
+        netIncome: totalIncomeAmount - totalExpenseAmount,
         incomeTransactionCount: totalIncome._count,
         expenseTransactionCount: totalExpense._count,
       },

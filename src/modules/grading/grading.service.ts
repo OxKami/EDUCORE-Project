@@ -353,7 +353,7 @@ export class GradingService {
         action: 'UPDATE',
         entityType: 'Score',
         entityId: scoreId,
-        details: { updates: input },
+        details: JSON.parse(JSON.stringify({ updates: input })),
       },
     });
 
@@ -440,8 +440,11 @@ export class GradingService {
         };
       }
 
-      const percentage = (score.score / score.maxScore) * 100;
-      const weightedScore = percentage * score.weight;
+      const scoreNum = Number(score.score);
+      const maxScoreNum = Number(score.maxScore);
+      const weightNum = Number(score.weight);
+      const percentage = (scoreNum / maxScoreNum) * 100;
+      const weightedScore = percentage * weightNum;
 
       subjectGrades[subjectId].scores.push({
         id: score.id,
@@ -456,7 +459,7 @@ export class GradingService {
       });
 
       subjectGrades[subjectId].totalWeightedScore += weightedScore;
-      subjectGrades[subjectId].totalWeight += score.weight;
+      subjectGrades[subjectId].totalWeight += weightNum;
     });
 
     // Calculate final grades
@@ -565,8 +568,11 @@ export class GradingService {
 
     scores.forEach(score => {
       if (studentScores[score.studentId]) {
-        const percentage = (score.score / score.maxScore) * 100;
-        const weightedScore = percentage * score.weight;
+        const scoreNum = Number(score.score);
+        const maxScoreNum = Number(score.maxScore);
+        const weightNum = Number(score.weight);
+        const percentage = (scoreNum / maxScoreNum) * 100;
+        const weightedScore = percentage * weightNum;
 
         studentScores[score.studentId].scores.push({
           id: score.id,
@@ -579,7 +585,7 @@ export class GradingService {
         });
 
         studentScores[score.studentId].totalWeightedScore += weightedScore;
-        studentScores[score.studentId].totalWeight += score.weight;
+        studentScores[score.studentId].totalWeight += weightNum;
       }
     });
 
